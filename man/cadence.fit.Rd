@@ -108,21 +108,20 @@ dtnorm.distribution <- list(density.fcn = dtnormal,
 
 # mixture of two normal distributions (mixture density network)
 library(nor1mix)
-dnormix <-
-function(x, mu1, mu2, sigs1, sigs2, w1){
+dnormix <- function(x, mu1, mu2, sig1, sig2, w1){
     if(length(x) > 1){
         dens <- mapply(dnormix, x, mu1 = mu1, mu2 = mu2,
-                       sigs1 = sigs1, sigs2 = sigs2, w1 = w1)
+                       sig1 = sig1, sig2 = sig2, w1 = w1)
     } else{
-        mix <- norMix(mu = c(mu1, mu2), sig2 = c(sigs1, sigs2),
+        mix <- norMix(mu = c(mu1, mu2), sigma = c(sig1, sig2),
                       w = c(w1, 1-w1))
         dens <- dnorMix(x, mix)
     }
-    dens
+        dens
 }
 normix.distribution <- list(density.fcn = dnormix,
-                            parameters = c("mu1", "mu2", "sigs1",
-                                           "sigs2", "w1"),
+                            parameters = c("mu1", "mu2", "sig1",
+                                           "sig2", "w1"),
                             parameters.fixed = NULL,
                             output.fcns = c(identity, identity,
                                             exp, exp, logistic))

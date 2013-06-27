@@ -77,9 +77,9 @@ A list with elements:
                                parameters = c("meanlog", "sdlog"),
                                parameters.fixed = NULL,
                                output.fcns = c(identity, exp))
-    x <- FraserSediment$x.1970.1976[c(TRUE, rep(FALSE, 19)),]
-    y <- FraserSediment$y.1970.1976[c(TRUE, rep(FALSE, 19)),,drop=FALSE]
-    fit.nlin <- cadence.fit(x, y, n.hidden = 3, n.trials = 1,
+    x <- FraserSediment$x.1970.1976[c(TRUE, rep(FALSE, 24)),]
+    y <- FraserSediment$y.1970.1976[c(TRUE, rep(FALSE, 24)),,drop=FALSE]
+    fit.nlin <- cadence.fit(x, y, n.hidden = 2, n.trials = 1,
                             hidden.fcn = tanh, distribution =
                             lnorm.distribution, maxit.Nelder = 100,
                             trace.Nelder = 1, trace = 1)

@@ -1,5 +1,5 @@
-b9f2c6f550066629eca6fc24b6754ff4 *DESCRIPTION
-69aa04ee6acb45497a747977a03a4bf0 *NAMESPACE
+30a3249d5a84fb787a7336b12ac80929 *DESCRIPTION
+d57f73ce9987e2d1e5e2f96a23bba8bb *NAMESPACE
 db06129b220efa6a3b6f066ad66af1d5 *R/cadence.cost.R
 bc37ee4c3b7952a0c88ccf04c00c912c *R/cadence.evaluate.R
 3c64ba5a45ddc0a4b0d97940b29c3d73 *R/cadence.fit.R
@@ -40,11 +40,11 @@ c355fe8b299a6a32f285565988fab177 *man/bgamma.Rd
 87cecbc70fec209f0cab0f085aa5fdad *man/blnorm.Rd
 4a50e28aae96052714a65ad88372d896 *man/bweibull.Rd
 93c9c7eb79bf77b02db95d795b3e4b4e *man/cadence.cost.Rd
-425ec4264321b73b8736e81d4e9795be *man/cadence.fit.Rd
+8302d0bc41b783d5a1c2e0d6d77c73ee *man/cadence.fit.Rd
 8075d7463ec1ae132fdb98abde0a4a21 *man/cadence.initialize.Rd
 4073980f10c4913bafa35233390e9b1b *man/cadence.predict.Rd
 75d597ecb27f7091f98cdaca54424edb *man/dummy.code.Rd
-b4e072275ea8b5fdbfd136f38bfc4d0d *man/gam.style.Rd
+bf9d9d6865d99ccc41f044fe2a2265e5 *man/gam.style.Rd
 0d1be4f7bf2456dadb5b41b02fe24ec2 *man/logistic.Rd
 f112ee0fde2b3532c18fbaed833aa14b *man/pareto2.Rd
 37941d23c931cc4657f8450b77398b93 *man/rbf.Rd
