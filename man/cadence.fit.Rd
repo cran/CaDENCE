@@ -9,8 +9,12 @@ Fit a CDEN model via nonlinear optimization of the maximum likelihood cost
 function.
 }
 \details{
-Fit a CDEN model by optimizing the maximum likelihood cost function. The
-hidden layer transfer function \code{hidden.fcn} should be set to
+Fit a CDEN model by optimizing the maximum likelihood cost function.
+Optimization relies on the standard \code{\link{optim}} function, the
+built-in \code{\link{rprop}} function, or, optionally,
+the \code{\link[pso]{psoptim}} function from the \code{pso} package.
+
+The hidden layer transfer function \code{hidden.fcn} should be set to
 \code{\link{tanh}} for a nonlinear model and to \code{\link{identity}} for a
 linear model. In the nonlinear case, the number of hidden nodes \code{n.hidden}
 controls the overall complexity of the model. The predictand distribution
@@ -102,6 +106,27 @@ dtnorm.distribution <- list(density.fcn = dtnormal,
                             output.fcns = c(identity, exp))
 }
 
+# mixture of two normal distributions
+library(nor1mix)
+dnormix <-
+function(x, mu1, mu2, sigs1, sigs2, w1){
+    if(length(x) > 1){
+        dens <- mapply(dnormix, x, mu1 = mu1, mu2 = mu2,
+                       sigs1 = sigs1, sigs2 = sigs2, w1 = w1)
+    } else{
+        mix <- norMix(mu = c(mu1, mu2), sig2 = c(sigs1, sigs2),
+                      w = c(w1, 1-w1))
+        dens <- dnorMix(x, mix)
+    }
+    dens
+}
+normix.distribution <- list(density.fcn = dnormix,
+                            parameters = c("mu1", "mu2", "sigs1",
+                                           "sigs2", "w1"),
+                            parameters.fixed = NULL,
+                            output.fcns = c(identity, identity,
+                                            exp, exp, logistic))
+
 Values of the Akaike information criterion with small sample size correction
 (AICc), and Bayesian information criterion (BIC) are calculated to assist in
 model selection. It is possible for such criteria to fail in the face of
@@ -118,13 +143,16 @@ Predictors are automatically scaled to zero mean and unit standard deviation
 and are rescaled by \code{\link{cadence.predict}}.
 
 }
+
 \usage{
 cadence.fit(x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
-            distribution = NULL, sd.norm = Inf,
-            init.range = c(-0.5, 0.5), method = c("optim", "Rprop"),
-            n.trials = 1, trace = 0, delta.0 = 0.1, delta.min = 1e-06,
-            delta.max = 50, epsilon = 1e-08, step.tol = 1e-06,
-            f.target = -Inf, maxit.Nelder = 200, max.exceptions = 500)
+            distribution = NULL, sd.norm = Inf, init.range = c(-0.5, 0.5),
+            method = c("optim", "psoptim", "Rprop"), n.trials = 1,
+            trace = 0, maxit.Nelder = 2000, trace.Nelder = 0,
+            swarm.size = NULL, vectorize = TRUE,
+            delta.0 = 0.1, delta.min = 1e-06, delta.max = 50, epsilon = 1e-08,
+            range.mult = 2, step.tol = 1e-08, f.target = -Inf,
+            max.exceptions = 500)
 }
 \arguments{
   \item{x}{
@@ -152,7 +180,7 @@ cadence.fit(x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
       range for random weights on [\code{min(init.range)}, \code{max(init.range)}]
 }
   \item{method}{
-      specifies the optimization method used to minimize \code{\link{cadence.cost}}; must be chosen from \code{c("optim", "Rprop")}.
+      specifies the optimization method used to minimize \code{\link{cadence.cost}}; must be chosen from \code{c("optim", "psoptim", "Rprop")}.
 }
   \item{n.trials}{
       number of repeated trials used to avoid shallow local minima during optimization.
@@ -160,6 +188,19 @@ cadence.fit(x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
   \item{trace}{
       the level of printing which is done during optimization. A value of \code{0} suppresses
       any progress reporting.
+}
+  \item{maxit.Nelder}{
+      maximum number of iterations of the Nelder-Mead optimization function prior to main calling \code{method}.
+}
+  \item{trace.Nelder}{
+      the level of printing which is done during Nelder-Mead optimization. A value of \code{0} suppresses
+      any progress reporting.
+}
+  \item{swarm.size}{
+      \code{swarm.size} if \code{\link[pso]{psoptim}} is used for optimization.
+}
+  \item{vectorize}{
+      \code{vectorize} if \code{\link[pso]{psoptim}} is used for optimization.
 }
   \item{delta.0}{
       size of the initial update-value if \code{\link{rprop}} is used for optimization.
@@ -173,14 +214,14 @@ cadence.fit(x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
   \item{epsilon}{
       step-size used in the finite difference calculation of the gradient if \code{\link{rprop}} is used for optimization.
 }
+  \item{range.mult}{
+      if \code{\link[pso]{psoptim}} is used for optimization, sets the search space boundaries to \code{range.mult} times the range of weights found by the Nelder-Mead algorithm.
+}
   \item{step.tol}{
       convergence criterion if \code{\link{rprop}} is used for optimization. Optimization will stop if the change in \code{f} over the previous three iterations falls below this value.
 }
   \item{f.target}{
       target value of \code{f} if \code{\link{rprop}} is used for optimization. Optimization will stop if \code{f} falls below this value.
-}
-  \item{maxit.Nelder}{
-      if \code{\link{optim}} is selected in \code{method}, specifies the maximum number of iterations of the Nelder-Mead algorithm used before application of the BFGS quasi-Newton algorithm.
 }
   \item{max.exceptions}{
       maximum number of repeated exceptions allowed during optimization.
@@ -213,7 +254,8 @@ cadence.fit(x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
     fit <- cadence.fit(x = FraserSediment$x.1970.1976[c(TRUE, rep(FALSE, 19)),],
                        y = FraserSediment$y.1970.1976[c(TRUE, rep(FALSE, 19)),,
                        drop=FALSE], n.hidden = 3, n.trials = 1,
-                       hidden.fcn = tanh, distribution = lnorm.distribution)
+                       maxit.Nelder = 100, trace.Nelder = 1, hidden.fcn = tanh,
+                       distribution = lnorm.distribution, trace = 1)
     pred <- cadence.predict(x = FraserSediment$x.1977.1979, fit = fit)
     matplot(pred, type = "l")
 }

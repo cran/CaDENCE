@@ -37,7 +37,8 @@ argument passed to \code{\link{cadence.fit}}.
                                      output.fcns = c(identity, exp))
     fit <- cadence.fit(x = FraserSediment$x.1970.1976,
                        y = FraserSediment$y.1970.1976,
-                       hidden.fcn = identity,
+                       hidden.fcn = identity, maxit.Nelder = 100,
+                       trace.Nelder = 1, trace = 1,
                        distribution = lnorm.distribution.fixed)
     pred <- cadence.predict(x = FraserSediment$x.1977.1979, fit = fit)
     matplot(pred, type = "l")

@@ -21,8 +21,11 @@ programming language.
 
 \details{
 Procedures for fitting CaDENCE models are
-provided by the \code{\link{cadence.fit}} function. Once a model has been
-developed, \code{\link{cadence.predict}} is used to evaluate the
+provided by \code{\link{cadence.fit}}, which relies on the
+standard \code{\link{optim}} function, the CaDENCE \code{\link{rprop}}
+function, or, optionally, the \code{\link[pso]{psoptim}} function from the
+\code{pso} package. Once a model has been developed,
+\code{\link{cadence.predict}} is used to evaluate the
 distribution parameters as a function of predictors.
 
 The package also provides a variety of zero-inflated distributions, including

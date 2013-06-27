@@ -81,9 +81,12 @@ A list with elements:
     y <- FraserSediment$y.1970.1976[c(TRUE, rep(FALSE, 19)),,drop=FALSE]
     fit.nlin <- cadence.fit(x, y, n.hidden = 3, n.trials = 1,
                             hidden.fcn = tanh, distribution =
-                            lnorm.distribution)
-    fit.lin <- cadence.fit(x, y, hidden.fcn = identity,
-                           distribution = lnorm.distribution)
+                            lnorm.distribution, maxit.Nelder = 100,
+                            trace.Nelder = 1, trace = 1)
+    fit.lin <- cadence.fit(x, y, hidden.fcn = identity, n.trials = 1,
+                           distribution = lnorm.distribution,
+                           maxit.Nelder = 100, trace.Nelder = 1,
+                           trace = 1)
     gam.style(x, fit = fit.nlin[[1]], column = 1,
               main = "Nonlinear")
     gam.style(x, fit = fit.lin[[1]], column = 1,
