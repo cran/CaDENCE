@@ -9,7 +9,8 @@ Fit a CDEN model via nonlinear optimization of the maximum likelihood cost
 function.
 }
 \details{
-Fit a CDEN model by optimizing the maximum likelihood cost function.
+Fit a CDEN model by optimizing the maximum likelihood cost function
+\code{f.cost}, which is set by default to \code{\link{cadence.cost}}.
 Optimization relies on the standard \code{\link{optim}} function, the
 built-in \code{\link{rprop}} function, or, optionally,
 the \code{\link[pso]{psoptim}} function from the \code{pso} package.
@@ -105,7 +106,7 @@ dtnorm.distribution <- list(density.fcn = dtnormal,
                             parameters.fixed = NULL,
                             output.fcns = c(identity, exp))
 
-# mixture of two normal distributions
+# mixture of two normal distributions (mixture density network)
 library(nor1mix)
 dnormix <-
 function(x, mu1, mu2, sigs1, sigs2, w1){
@@ -152,7 +153,7 @@ cadence.fit(x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
             swarm.size = NULL, vectorize = TRUE,
             delta.0 = 0.1, delta.min = 1e-06, delta.max = 50, epsilon = 1e-08,
             range.mult = 2, step.tol = 1e-08, f.target = -Inf,
-            max.exceptions = 500)
+            f.cost = cadence.cost, max.exceptions = 500)
 }
 \arguments{
   \item{x}{
@@ -222,6 +223,9 @@ cadence.fit(x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
 }
   \item{f.target}{
       target value of \code{f} if \code{\link{rprop}} is used for optimization. Optimization will stop if \code{f} falls below this value.
+}
+  \item{f.cost}{
+      cost function to be optimized.
 }
   \item{max.exceptions}{
       maximum number of repeated exceptions allowed during optimization.

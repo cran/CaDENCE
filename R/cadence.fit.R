@@ -6,7 +6,7 @@ function (x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
           swarm.size = NULL, vectorize = TRUE,
           delta.0 = 0.1, delta.min = 1e-06, delta.max = 50, epsilon = 1e-08,
           range.mult = 2, step.tol = 1e-08, f.target = -Inf,
-          max.exceptions = 500)
+          f.cost = cadence.cost, max.exceptions = 500)
 {
     if (!is.matrix(x)) 
         stop("\"x\" must be a matrix")
@@ -34,13 +34,6 @@ function (x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
     attr(x, "scaled:scale")[attr(x, "scaled:scale") == 0] <- 1
     x[is.nan(x)] <- 0
     method <- match.arg(method)
-    if(method=="psoptim"){
-        load.package <- require(pso)
-        if(!load.package){
-            warning("\"pso\" not loaded; defaulting to \"optim\"")
-            method <- "optim"
-        }
-    }
     fprime <- function(w.init, f, epsilon, f.init, ...) {
         if (is.null(f.init)) 
             f.init <- f(w.init, ...)
@@ -64,7 +57,7 @@ function (x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
             while (exception) {
                 weights <- cadence.initialize(x, nh, init.range, 
                   distribution)
-                gradient <- fprime(weights, cadence.cost, epsilon, 
+                gradient <- fprime(weights, f.cost, epsilon, 
                   NULL, x = x, y = y, n.hidden = nh, hidden.fcn = hidden.fcn, 
                   distribution = distribution, sd.norm = sd.norm, 
                   valid = rep(TRUE, length(weights)))
@@ -74,7 +67,7 @@ function (x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
                   cat("nonzero weights =", valid.cur, "\n")
                 if (method == "optim") {
                   output.cdn.cur <- try(suppressWarnings(optim(weights, 
-                    cadence.cost, method = "Nelder",
+                    f.cost, method = "Nelder",
                     control = list(maxit = maxit.Nelder, trace = trace.Nelder),
                     x = x, y = y, n.hidden = nh, hidden.fcn = hidden.fcn,
                     distribution = distribution, sd.norm = sd.norm,
@@ -82,7 +75,7 @@ function (x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
                   weights <- try(output.cdn.cur$par, silent = trace == 0)
                   if(iter.max > 0){
                       output.cdn.cur <- try(suppressWarnings(optim(weights, 
-                        cadence.cost, method = "BFGS",
+                        f.cost, method = "BFGS",
                         control = list(maxit = iter.max, reltol = step.tol,
                         trace = trace, REPORT = ifelse(trace<=0, 1, trace)),
                         x = x, y = y, n.hidden = nh, hidden.fcn = hidden.fcn,
@@ -92,7 +85,7 @@ function (x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
                 }
                 else if (method == "psoptim") {
                   output.cdn.cur <- try(suppressWarnings(optim(weights, 
-                    cadence.cost, method = "Nelder",
+                    f.cost, method = "Nelder",
                     control = list(maxit = maxit.Nelder, trace = trace.Nelder),
                     x = x, y = y, n.hidden = nh, hidden.fcn = hidden.fcn,
                     distribution = distribution, sd.norm = sd.norm,
@@ -103,8 +96,8 @@ function (x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
                     w.upper <- weights + range.mult*diff(range(weights))
                     if(is.null(swarm.size))
                         swarm.size <- floor(10+2*sqrt(length(weights)))
-                    output.cdn.cur <- try(suppressWarnings(psoptim(weights, 
-                        cadence.cost, lower = w.lower, upper = w.upper,
+                    output.cdn.cur <- try(suppressWarnings(pso::psoptim(weights, 
+                        f.cost, lower = w.lower, upper = w.upper,
                         control = list(maxit = iter.max, abstol = f.target,
                         vectorize = vectorize, s = swarm.size,
                         trace = trace, REPORT = ifelse(trace<=0, 1, trace)),
@@ -115,14 +108,14 @@ function (x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
                 }
                 else if (method == "Rprop") {
                   output.cdn.cur <- try(suppressWarnings(optim(weights, 
-                    cadence.cost, method = "Nelder",
+                    f.cost, method = "Nelder",
                     control = list(maxit = maxit.Nelder, trace = trace.Nelder),
                     x = x, y = y, n.hidden = nh, hidden.fcn = hidden.fcn,
                     distribution = distribution, sd.norm = sd.norm,
                     valid = valid.cur)), silent = trace == 0)
                   weights <- try(output.cdn.cur$par, silent = trace == 0)
                   if(iter.max > 0){
-                    output.cdn.cur <- try(rprop(w = weights, f = cadence.cost, 
+                    output.cdn.cur <- try(rprop(w = weights, f = f.cost, 
                         iterlim = iter.max, print.level = trace, 
                         delta.0 = delta.0, delta.min = delta.min, 
                         delta.max = delta.max, epsilon = epsilon, 
@@ -149,7 +142,7 @@ function (x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
             }
         }
         weights <- output.cdn$par
-        NLL <- cadence.cost(weights, x, y, nh, hidden.fcn, distribution, 
+        NLL <- f.cost(weights, x, y, nh, hidden.fcn, distribution, 
             sd.norm, valid)
         penalty <- attr(NLL, "penalty")
         attr(NLL, "penalty") <- NULL

@@ -8,10 +8,10 @@
 A conditional density estimation network (CDEN) is a probabilistic extension
 of the standard multi-layer perceptron neural network (MLP) (Neuneier et
 al., 1994). A CDEN model allows users to estimate parameters of a specified
-probability density function conditioned upon values of a set of predictors
-using the MLP architecture. The result is a flexible model for the mean, the
-variance, exceedance probabilities, prediction intervals, etc. from the
-specified conditional distribution. Because the CDEN is based on the MLP,
+probability distribution conditioned upon values of a set of predictors
+using the MLP architecture. The result is a flexible nonlinear model that can
+be used to calculate the conditional mean, variance, prediction intervals, etc.
+based on the specified distribution. Because the CDEN is based on the MLP,
 nonlinear relationships, including those involving complicated interactions
 between predictors, can be described by the modelling framework. The CaDENCE
 (Conditional Density Estimation Network Creation & Evaluation) package

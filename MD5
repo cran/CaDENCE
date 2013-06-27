@@ -1,8 +1,8 @@
-326ff03c0f3dc93a7ec06016d5dff3d2 *DESCRIPTION
-9fdfeb11f7ddba6f3aab9aaa6b1ac5dd *NAMESPACE
+b9f2c6f550066629eca6fc24b6754ff4 *DESCRIPTION
+69aa04ee6acb45497a747977a03a4bf0 *NAMESPACE
 db06129b220efa6a3b6f066ad66af1d5 *R/cadence.cost.R
 bc37ee4c3b7952a0c88ccf04c00c912c *R/cadence.evaluate.R
-168be7095bdcaa131e2e911182fa2a0a *R/cadence.fit.R
+3c64ba5a45ddc0a4b0d97940b29c3d73 *R/cadence.fit.R
 e3917469b7064fbf1c6523ea40f16a18 *R/cadence.initialize.R
 4634663336f692ee9a18c289b242a0ba *R/cadence.predict.R
 62a31fe63611bb3b60791661033650d6 *R/cadence.reshape.R
@@ -34,13 +34,13 @@ b81830e7ac4f169bfbc07942eaa9bf63 *R/rpareto2.R
 458608e6972f70b63757ae6404fa7cf8 *R/xval.buffer.R
 b20fc83b8398243e4a4f7a592ca65c46 *data/FraserSediment.rda
 bc76d2548eed046164f7fa913614c4c7 *inst/CITATION
-2d944ca4b6cbef4a82821ca6d0d98108 *man/CaDENCE-package.Rd
+a1cef2cb179096e40941b459c7d81181 *man/CaDENCE-package.Rd
 3cad077d999f187d377ff3d4b94b237f *man/FraserSediment.Rd
 c355fe8b299a6a32f285565988fab177 *man/bgamma.Rd
 87cecbc70fec209f0cab0f085aa5fdad *man/blnorm.Rd
 4a50e28aae96052714a65ad88372d896 *man/bweibull.Rd
 93c9c7eb79bf77b02db95d795b3e4b4e *man/cadence.cost.Rd
-7d5e1751a4c9af4c75118e2a9110abf3 *man/cadence.fit.Rd
+425ec4264321b73b8736e81d4e9795be *man/cadence.fit.Rd
 8075d7463ec1ae132fdb98abde0a4a21 *man/cadence.initialize.Rd
 4073980f10c4913bafa35233390e9b1b *man/cadence.predict.Rd
 75d597ecb27f7091f98cdaca54424edb *man/dummy.code.Rd
