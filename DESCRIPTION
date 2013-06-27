@@ -2,7 +2,7 @@ Package: CaDENCE
 Type: Package
 Title: Conditional Density Estimation Network Construction and
         Evaluation
-Version: 1.2.0
+Version: 1.2.1
 Author: Alex J. Cannon
 Maintainer: Alex J. Cannon <acannon@eos.ubc.ca>
 Description: A probabilistic extension of the standard multi-layer
@@ -10,7 +10,7 @@ Description: A probabilistic extension of the standard multi-layer
 License: GPL-2
 Suggests: boot, pso
 LazyLoad: yes
-Packaged: 2013-06-27 18:04:23 UTC; acannon
+Packaged: 2013-06-27 22:29:43 UTC; acannon
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2013-06-27 22:32:31
+Date/Publication: 2013-06-28 07:11:48

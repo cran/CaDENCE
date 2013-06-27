@@ -104,7 +104,6 @@ dtnorm.distribution <- list(density.fcn = dtnormal,
                             parameters = c("mean", "sd"),
                             parameters.fixed = NULL,
                             output.fcns = c(identity, exp))
-}
 
 # mixture of two normal distributions
 library(nor1mix)
@@ -126,6 +125,7 @@ normix.distribution <- list(density.fcn = dnormix,
                             parameters.fixed = NULL,
                             output.fcns = c(identity, identity,
                                             exp, exp, logistic))
+}
 
 Values of the Akaike information criterion with small sample size correction
 (AICc), and Bayesian information criterion (BIC) are calculated to assist in

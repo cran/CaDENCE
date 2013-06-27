@@ -79,13 +79,13 @@ function (x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
                     x = x, y = y, n.hidden = nh, hidden.fcn = hidden.fcn,
                     distribution = distribution, sd.norm = sd.norm,
                     valid = valid.cur)), silent = trace == 0)
-                  weights <- output.cdn.cur$par
+                  weights <- try(output.cdn.cur$par, silent = trace == 0)
                   if(iter.max > 0){
                       output.cdn.cur <- try(suppressWarnings(optim(weights, 
                         cadence.cost, method = "BFGS",
                         control = list(maxit = iter.max, reltol = step.tol,
-                        trace = trace, REPORT = trace+1), x = x, y = y,
-                        n.hidden = nh, hidden.fcn = hidden.fcn,
+                        trace = trace, REPORT = ifelse(trace<=0, 1, trace)),
+                        x = x, y = y, n.hidden = nh, hidden.fcn = hidden.fcn,
                         distribution = distribution, sd.norm = sd.norm,
                         valid = valid.cur)), silent = trace == 0)
                    }
@@ -97,7 +97,7 @@ function (x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
                     x = x, y = y, n.hidden = nh, hidden.fcn = hidden.fcn,
                     distribution = distribution, sd.norm = sd.norm,
                     valid = valid.cur)), silent = trace == 0)
-                  weights <- output.cdn.cur$par
+                  weights <- try(output.cdn.cur$par, silent = trace == 0)
                   if(iter.max > 0){
                     w.lower <- weights - range.mult*diff(range(weights))
                     w.upper <- weights + range.mult*diff(range(weights))
@@ -107,8 +107,8 @@ function (x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
                         cadence.cost, lower = w.lower, upper = w.upper,
                         control = list(maxit = iter.max, abstol = f.target,
                         vectorize = vectorize, s = swarm.size,
-                        trace = trace, REPORT = trace), x = x, y = y,
-                        n.hidden = nh, hidden.fcn = hidden.fcn,
+                        trace = trace, REPORT = ifelse(trace<=0, 1, trace)),
+                        x = x, y = y, n.hidden = nh, hidden.fcn = hidden.fcn,
                         distribution = distribution, sd.norm = sd.norm,
                         valid = valid.cur)), silent = trace == 0)
                    }
@@ -120,7 +120,7 @@ function (x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
                     x = x, y = y, n.hidden = nh, hidden.fcn = hidden.fcn,
                     distribution = distribution, sd.norm = sd.norm,
                     valid = valid.cur)), silent = trace == 0)
-                  weights <- output.cdn.cur$par
+                  weights <- try(output.cdn.cur$par, silent = trace == 0)
                   if(iter.max > 0){
                     output.cdn.cur <- try(rprop(w = weights, f = cadence.cost, 
                         iterlim = iter.max, print.level = trace, 

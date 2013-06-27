@@ -12,6 +12,7 @@ function (x, W1, W2, hidden.fcn, distribution)
     y2 <- aug.y1 %*% W2
     y2 <- mapply(do.call, distribution$output.fcns,
                  lapply(data.frame(y2), list))
+    if(!is.matrix(y2)) y2 <- matrix(y2, nrow=1)
     colnames(y2) <- distribution$parameters
     y2
 }
