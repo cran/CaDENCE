@@ -7,7 +7,7 @@ function(w, f, iterlim=100, print.level=1, delta.0=0.1, delta.min=1E-6,
     {
         if(is.null(f.init)) f.init <- f(w.init, ...)
         gradient <- w.init*0
-        for(i in 1:length(w.init)){
+        for(i in seq(length(w.init))){
             w.plus <- w.init
             w.plus[i] <- w.plus[i] + epsilon
             f.plus <- f(w.plus, ...)
@@ -21,7 +21,7 @@ function(w, f, iterlim=100, print.level=1, delta.0=0.1, delta.min=1E-6,
     nu.plus <- 1.2
     E.iter <- rep(Inf, iterlim)
     dE <- Inf
-    for (i in 1:iterlim){
+    for (i in seq(iterlim)) {
         E <- f(w, ...)
         dEdw <- attr(E, "gradient")
         if(is.null(dEdw)){

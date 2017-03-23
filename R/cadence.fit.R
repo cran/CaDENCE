@@ -38,7 +38,7 @@ function (x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
         if (is.null(f.init)) 
             f.init <- f(w.init, ...)
         gradient <- w.init * 0
-        for (i in 1:length(w.init)) {
+        for (i in seq(length(w.init))) {
             w.plus <- w.init
             w.plus[i] <- w.plus[i] + epsilon
             f.plus <- f(w.plus, ...)
@@ -50,7 +50,7 @@ function (x, y, iter.max = 500, n.hidden = 2, hidden.fcn = tanh,
     for (nh in n.hidden) {
         NLL <- Inf
         cat("n.hidden =", nh, "--> ")
-        for (i in 1:n.trials) {
+        for (i in seq(n.trials)) {
             cat(i, "")
             exception <- TRUE
             n.exceptions <- 0

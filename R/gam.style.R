@@ -26,7 +26,7 @@ function(x, fit, column, baseline=mean(x[,column]), additive.scale=FALSE,
         stop("\"fit\" must be a single list element from \"cadence.fit\"")
     parameters <- attr(fit, "distribution")$parameters
     if (additive.scale) {
-        for(param in 1:length(parameters)) {
+        for(param in seq(length(parameters))) {
             attr(fit, "distribution")$output.fcns[[param]] <- identity
         }
     }   
@@ -35,11 +35,11 @@ function(x, fit, column, baseline=mean(x[,column]), additive.scale=FALSE,
     colnames(effects) <- colnames(partials) <- parameters
     if(plot){
         if(is.null(colnames(x)))
-            colnames(x) <- paste("x", 1:ncol(x), sep="")
+            colnames(x) <- paste("x", seq(ncol(x)), sep="")
         xlab <- colnames(x)[column]
         x.var <- x[,column]
         if(length(seg.cols)==1) seg.cols <- rep(seg.cols, length(x.var))
-        for(param in 1:ncol(effects)){
+        for(param in seq(ncol(effects))){
             ylab <- paste("Effects:", parameters[param])
             theta <- atan(partials[,param])
             ymin <- min(effects[,param])
