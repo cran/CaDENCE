@@ -1,4 +1,4 @@
-0db65f987a03e9b2c3ef1c9bf527781c *DESCRIPTION
+d192e5bd6deaba5c0e4f4ef4fd86e1fa *DESCRIPTION
 d57f73ce9987e2d1e5e2f96a23bba8bb *NAMESPACE
 db06129b220efa6a3b6f066ad66af1d5 *R/cadence.cost.R
 bc37ee4c3b7952a0c88ccf04c00c912c *R/cadence.evaluate.R
@@ -34,7 +34,7 @@ dc166ae9c2525b42dc30b6b4549a2cbc *R/rprop.R
 aa9e36a3af71fd2810f7f75c8c874d96 *R/xval.buffer.R
 b20fc83b8398243e4a4f7a592ca65c46 *data/FraserSediment.rda
 bc76d2548eed046164f7fa913614c4c7 *inst/CITATION
-a1cef2cb179096e40941b459c7d81181 *man/CaDENCE-package.Rd
+ebb6064e9e0f46d887fe3a19e87f38fd *man/CaDENCE-package.Rd
 3cad077d999f187d377ff3d4b94b237f *man/FraserSediment.Rd
 c355fe8b299a6a32f285565988fab177 *man/bgamma.Rd
 87cecbc70fec209f0cab0f085aa5fdad *man/blnorm.Rd

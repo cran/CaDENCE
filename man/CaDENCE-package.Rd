@@ -43,11 +43,6 @@ Most other functions are used internally and should not normally need to be
 called directly by the user.
 }
 
-\author{
-Alex J. Cannon
-
-Maintainer: Alex J. Cannon <acannon@eos.ubc.ca>
-}
 \references{
 Cannon, A.J., 2012. Neural networks for probabilistic environmental
 prediction: Conditional Density Estimation Network Creation & Evaluation
